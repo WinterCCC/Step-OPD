@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Examples of unintended prompt-word rendering across the compared text-to-image models.">
+    <title>Spillover examples · StepX-OPD</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="hero page-shell">
+      <h1>
+        <span class="method-word">StepX-OPD</span>
+        <span class="title-rest">Rethinking Multi-Teacher On-Policy Distillation in Diffusion Models</span>
+      </h1>
+      <p class="tagline">Capability integration and trajectory compression, trained together on the student’s own rollout.</p>
+
+      <div class="identity" aria-label="Authors and affiliations">
+        <p class="authors">Chenru Wang<sup>1,&#42;</sup>, Xuanyang Zhang<sup>1</sup>, Yucheng Han<sup>1</sup>, Wenbo Nie<sup>1,&#42;</sup>, Wei Cheng<sup>1</sup>, Xianfang Zeng<sup>1</sup>, Gang YU<sup>1</sup>, Chi Zhang<sup>2</sup></p>
+        <p class="affiliations"><sup>1</sup>StepFun<span class="aff-sep">&#183;</span><sup>2</sup>Westlake University</p>
+        <p class="author-note"><sup>&#42;</sup>Work done during an internship at StepFun.</p>
+      </div>
+
+      <nav class="resource-links" aria-label="Project resources">
+        <a class="resource-button" href="#">Download PDF <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the PDF href. -->
+        <a class="resource-button" href="#">arXiv <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the arXiv href. -->
+        <a class="resource-button" href="#">Code <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the Code href. -->
+      </nav>
+
+                <nav class="page-switch" id="blocks" aria-label="Pages">
+          <a class="page-pill" href="index.html#blocks">Overview</a>
+          <a class="page-pill" href="comparisons.html#blocks">Qualitative comparisons</a>
+          <a class="page-pill is-current" href="spillover.html#blocks" aria-current="page">Spillover examples</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="page-shell prose-section">
+        <div class="section-rule"></div>
+        <p class="section-kicker">Spillover examples</p>
+        <h2>Prompt words rendered as image text</h2>
+        <p>These prompts neither request nor forbid text in the image. The figures below collect cases where words from the prompt are nevertheless drawn into the picture.</p>
+        <figure class="figure-frame">
+          <img src="static/images/spillover_examples_a.png" alt="Examples of unintended prompt-word rendering." loading="lazy" decoding="async">
+          <figcaption><strong>Further examples.</strong> Further examples of unintended prompt-word rendering across compared models.</figcaption>
+        </figure>
+        <figure class="figure-frame">
+          <img src="static/images/spillover_examples_b.png" alt="Examples of unintended prompt-word rendering." loading="lazy" decoding="async">
+          <figcaption><strong>Further examples.</strong> More examples showing how prompt-word recurrence varies across model outputs.</figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      <div class="page-shell footer-inner">
+        <p>Design inspired by the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.</p>
+        <p>Page content is available under a Creative Commons license.</p>
+      </div>
+    </footer>
+  </body>
+</html>

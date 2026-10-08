@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Four-step qualitative comparisons between StepX-OPD and three baselines on held-out prompts.">
+    <title>Qualitative comparisons · StepX-OPD</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="hero page-shell">
+      <h1>
+        <span class="method-word">StepX-OPD</span>
+        <span class="title-rest">Rethinking Multi-Teacher On-Policy Distillation in Diffusion Models</span>
+      </h1>
+      <p class="tagline">Capability integration and trajectory compression, trained together on the student’s own rollout.</p>
+
+      <div class="identity" aria-label="Authors and affiliations">
+        <p class="authors">Chenru Wang<sup>1,&#42;</sup>, Xuanyang Zhang<sup>1</sup>, Yucheng Han<sup>1</sup>, Wenbo Nie<sup>1,&#42;</sup>, Wei Cheng<sup>1</sup>, Xianfang Zeng<sup>1</sup>, Gang YU<sup>1</sup>, Chi Zhang<sup>2</sup></p>
+        <p class="affiliations"><sup>1</sup>StepFun<span class="aff-sep">&#183;</span><sup>2</sup>Westlake University</p>
+        <p class="author-note"><sup>&#42;</sup>Work done during an internship at StepFun.</p>
+      </div>
+
+      <nav class="resource-links" aria-label="Project resources">
+        <a class="resource-button" href="#">Download PDF <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the PDF href. -->
+        <a class="resource-button" href="#">arXiv <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the arXiv href. -->
+        <a class="resource-button" href="#">Code <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the Code href. -->
+      </nav>
+
+                <nav class="page-switch" id="blocks" aria-label="Pages">
+          <a class="page-pill" href="index.html#blocks">Overview</a>
+          <a class="page-pill is-current" href="comparisons.html#blocks" aria-current="page">Qualitative comparisons</a>
+          <a class="page-pill" href="spillover.html#blocks">Spillover examples</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="page-shell prose-section">
+        <div class="section-rule"></div>
+        <p class="section-kicker">Qualitative comparisons</p>
+        <h2>The comparisons shown in the paper</h2>
+        <p>These are the twenty prompts the paper shows. All four models generate in four sampling steps. Each cell uses one fixed noise seed, chosen per cell rather than shared across a row. The prompts are held out from training.</p>
+      </section>
+      <section class="page-shell compare-block" data-prefix="static/images/gallery/" data-sep="__">
+        <div class="model-switch" role="group" aria-label="Choose which model to show">
+          <button type="button" class="model-pill is-active" data-model="ours" aria-pressed="true">StepX-OPD (ours)</button>
+          <button type="button" class="model-pill" data-model="diffusionopd_tdm" aria-pressed="false">DiffusionOPD + TDM</button>
+          <button type="button" class="model-pill" data-model="flowopd_tdm" aria-pressed="false">Flow-OPD + TDM</button>
+          <button type="button" class="model-pill" data-model="base_tdm" aria-pressed="false">Base + TDM</button>
+        </div>
+          <div class="compare-grid">
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="bind_005" src="static/images/gallery/ours__bind_005.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A white cat sleeping on an orange armchair beside a stack of green books, soft afternoon l">
+              <figcaption><span class="prompt-tag">Attribute binding</span><span class="prompt-text">“A white cat sleeping on an orange armchair beside a stack of green books, soft afternoon light through lace curtains.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_014" src="static/images/gallery/ours__count_014.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Four candles of unequal height burning on an old church altar, wax pooling, dark stone beh">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Four candles of unequal height burning on an old church altar, wax pooling, dark stone behind.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_055" src="static/images/gallery/ours__text_055.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A wooden crate of lemons stamped &quot;CITRUS CO&quot;, sunlit market stall, striped awning shadow f">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“A wooden crate of lemons stamped &quot;CITRUS CO&quot;, sunlit market stall, striped awning shadow falling across the fruit.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="fig12_r5" src="static/images/gallery/ours__fig12_r5.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Iridescent origami crane on a dark surface, with crisp paper folds highlighted by soft mac">
+              <figcaption><span class="prompt-tag">Held-out narrative prompt</span><span class="prompt-text">“Iridescent origami crane on a dark surface, with crisp paper folds highlighted by soft macro lighting.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="bind_001" src="static/images/gallery/ours__bind_001.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A black apple and a green backpack on a sunlit wooden bench, shallow depth of field, warm ">
+              <figcaption><span class="prompt-tag">Attribute binding</span><span class="prompt-text">“A black apple and a green backpack on a sunlit wooden bench, shallow depth of field, warm afternoon light.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="bind_045" src="static/images/gallery/ours__bind_045.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A brass diving helmet and a coil of blue rope on a weathered dock, sea spray, low sun behi">
+              <figcaption><span class="prompt-tag">Attribute binding</span><span class="prompt-text">“A brass diving helmet and a coil of blue rope on a weathered dock, sea spray, low sun behind.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_013" src="static/images/gallery/ours__count_013.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Three wooden rowing boats moored on a still alpine lake at dawn, mountains mirrored in the">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Three wooden rowing boats moored on a still alpine lake at dawn, mountains mirrored in the water.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_017" src="static/images/gallery/ours__count_017.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Three ripe pomegranates split open on a dark table, seeds glistening, dramatic side light,">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Three ripe pomegranates split open on a dark table, seeds glistening, dramatic side light, baroque still life.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_018" src="static/images/gallery/ours__count_018.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Four seagulls in flight against a stormy grey sky above cliffs, wind-torn spray below.">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Four seagulls in flight against a stormy grey sky above cliffs, wind-torn spray below.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_029" src="static/images/gallery/ours__count_029.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Five jellyfish drifting in dark water, translucent bells glowing blue, fine tentacles trai">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Five jellyfish drifting in dark water, translucent bells glowing blue, fine tentacles trailing.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_031" src="static/images/gallery/ours__count_031.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Three drones hovering above a terraced rice field at sunrise, mist between the terraces.">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Three drones hovering above a terraced rice field at sunrise, mist between the terraces.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="count_032" src="static/images/gallery/ours__count_032.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Four crows lined up on a snowy fence rail, black against white, flat overcast light.">
+              <figcaption><span class="prompt-tag">Counting</span><span class="prompt-text">“Four crows lined up on a snowy fence rail, black against white, flat overcast light.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="fig11_r3" src="static/images/gallery/ours__fig11_r3.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: Stacked wooden animal totem with bear at the bottom, eagle in the middle and fish on top, ">
+              <figcaption><span class="prompt-tag">Held-out narrative prompt</span><span class="prompt-text">“Stacked wooden animal totem with bear at the bottom, eagle in the middle and fish on top, with weathered paint, forest bokeh and warm light.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="spatial_042" src="static/images/gallery/ours__spatial_042.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A hummingbird hovering in front of a red trumpet flower with blurred green foliage behind,">
+              <figcaption><span class="prompt-tag">Spatial relation</span><span class="prompt-text">“A hummingbird hovering in front of a red trumpet flower with blurred green foliage behind, high-speed macro.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_013" src="static/images/gallery/ours__text_013.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: An old typewriter with a sheet of paper rolled in, the typed line reading &quot;CHAPTER ONE&quot;, d">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“An old typewriter with a sheet of paper rolled in, the typed line reading &quot;CHAPTER ONE&quot;, dust motes in a slanting sunbeam.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_051" src="static/images/gallery/ours__text_051.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A hand-stitched sampler framed on a wall reading &quot;HOME SWEET HOME&quot;, late afternoon light, ">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“A hand-stitched sampler framed on a wall reading &quot;HOME SWEET HOME&quot;, late afternoon light, faded floral wallpaper behind.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_052" src="static/images/gallery/ours__text_052.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A construction site hoarding painted with &quot;COMING SOON&quot;, scaffolding above, crane silhouet">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“A construction site hoarding painted with &quot;COMING SOON&quot;, scaffolding above, crane silhouette against an orange evening sky.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_058" src="static/images/gallery/ours__text_058.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: An enamel mug on a campfire stone printed with &quot;WILDERNESS&quot;, flames glowing, pine forest d">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“An enamel mug on a campfire stone printed with &quot;WILDERNESS&quot;, flames glowing, pine forest dark behind, blue hour.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_061" src="static/images/gallery/ours__text_061.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A vast, sun-baked desert landscape with a lone highway stretching into the distance. A wea">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“A vast, sun-baked desert landscape with a lone highway stretching into the distance. A weathered road sign stands by the side, warning &quot;Next Gas 100 Miles&quot;, under a blazing sky.”</span></figcaption>
+            </figure>
+            <figure class="compare-cell">
+              <img class="compare-img" data-key="text_066" src="static/images/gallery/ours__text_066.jpg"
+                   width="448" height="448" loading="lazy" decoding="async"
+                   alt="Generation for the prompt: A green sign that says &quot;Very Deep Learning&quot; and is at the edge of the Grand Canyon.">
+              <figcaption><span class="prompt-tag">Text rendering</span><span class="prompt-text">“A green sign that says &quot;Very Deep Learning&quot; and is at the edge of the Grand Canyon.”</span></figcaption>
+            </figure>
+          </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="page-shell footer-inner">
+        <p>Design inspired by the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.</p>
+        <p>Page content is available under a Creative Commons license.</p>
+      </div>
+    </footer>
+  </body>
+</html>

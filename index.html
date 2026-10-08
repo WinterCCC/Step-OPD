@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Project page for StepX-OPD, a multi-teacher on-policy distillation method for diffusion models.">
+    <title>StepX-OPD: Rethinking Multi-Teacher On-Policy Distillation in Diffusion Models</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="hero page-shell">
+      <h1>
+        <span class="method-word">StepX-OPD</span>
+        <span class="title-rest">Rethinking Multi-Teacher On-Policy Distillation in Diffusion Models</span>
+      </h1>
+      <p class="tagline">Capability integration and trajectory compression, trained together on the student’s own rollout.</p>
+
+      <div class="identity" aria-label="Authors and affiliations">
+        <p class="authors">Chenru Wang<sup>1,&#42;</sup>, Xuanyang Zhang<sup>1</sup>, Yucheng Han<sup>1</sup>, Wenbo Nie<sup>1,&#42;</sup>, Wei Cheng<sup>1</sup>, Xianfang Zeng<sup>1</sup>, Gang YU<sup>1</sup>, Chi Zhang<sup>2</sup></p>
+        <p class="affiliations"><sup>1</sup>StepFun<span class="aff-sep">&#183;</span><sup>2</sup>Westlake University</p>
+        <p class="author-note"><sup>&#42;</sup>Work done during an internship at StepFun.</p>
+      </div>
+
+      <nav class="resource-links" aria-label="Project resources">
+        <a class="resource-button" href="#">Download PDF <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the PDF href. -->
+        <a class="resource-button" href="#">arXiv <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the arXiv href. -->
+        <a class="resource-button" href="#">Code <span aria-hidden="true">↗</span></a><!-- Placeholder: fill in the Code href. -->
+      </nav>
+      <p class="release-note">Code will be released with the formal version.</p>
+
+      <aside class="tldr" aria-labelledby="tldr-heading">
+        <p class="tldr-label" id="tldr-heading">TL;DR</p>
+        <p><span class="method-inline">StepX-OPD</span> routes each training source to its reward-specialized teacher while compressing the student’s own sampling trajectory. The same routed teacher supplies both on-policy distribution matching and direct velocity supervision on low-noise batches.</p>
+      </aside>
+
+      <section class="hero-compare compare-block" aria-labelledby="compare-heading"
+               data-prefix="static/images/compare/" data-sep="_">
+        <h2 class="sr-only" id="compare-heading">Four-step comparison</h2>
+        <div class="model-switch" role="group" aria-label="Choose which model to show">
+          <button type="button" class="model-pill is-active" data-model="ours_wb" aria-pressed="true">StepX-OPD (ours)</button>
+          <button type="button" class="model-pill" data-model="diffusionopd_tdm" aria-pressed="false">DiffusionOPD + TDM</button>
+          <button type="button" class="model-pill" data-model="flowopd_tdm" aria-pressed="false">Flow-OPD + TDM</button>
+          <button type="button" class="model-pill" data-model="base_tdm" aria-pressed="false">Base + TDM</button>
+        </div>
+        <p class="model-switch-note">Every model above generates in four sampling steps. Each column keeps the same prompt and the same initial noise seed, so switching models changes only the model.</p>
+        <div class="compare-grid">
+          <figure class="compare-cell">
+            <img class="compare-img" data-key="c1" src="static/images/compare/ours_wb_c1.jpg"
+                 width="448" height="448" decoding="async"
+                 alt="Generation for the prompt: a photo of two toilets">
+            <figcaption><span class="prompt-tag">GenEval · counting</span><span class="prompt-text">“a photo of two toilets”</span></figcaption>
+          </figure>
+          <figure class="compare-cell">
+            <img class="compare-img" data-key="c2" src="static/images/compare/ours_wb_c2.jpg"
+                 width="448" height="448" decoding="async"
+                 alt="Generation for the prompt: a photo of a dog right of a teddy bear">
+            <figcaption><span class="prompt-tag">GenEval · position</span><span class="prompt-text">“a photo of a dog right of a teddy bear”</span></figcaption>
+          </figure>
+          <figure class="compare-cell">
+            <img class="compare-img" data-key="c3" src="static/images/compare/ours_wb_c3.jpg"
+                 width="448" height="448" decoding="async"
+                 alt="Generation for the prompt: a photo of a red cake and a purple chair">
+            <figcaption><span class="prompt-tag">GenEval · color attribution</span><span class="prompt-text">“a photo of a red cake and a purple chair”</span></figcaption>
+          </figure>
+          <figure class="compare-cell">
+            <img class="compare-img" data-key="c4" src="static/images/compare/ours_wb_c4.jpg"
+                 width="448" height="448" decoding="async"
+                 alt="Generation for the prompt: A vibrant science fair poster titled “Volcano Experiment”, featuring a detailed illustrati">
+            <figcaption><span class="prompt-tag">OCR</span><span class="prompt-text">“A vibrant science fair poster titled “Volcano Experiment”, featuring a detailed illustration of a volcanic eruption with lava flowing down its slopes, surrounded by labeled diagrams and facts about volcanic processes, all set against a bright, engaging background.”</span></figcaption>
+          </figure>
+          <figure class="compare-cell">
+            <img class="compare-img" data-key="c5" src="static/images/compare/ours_wb_c5.jpg"
+                 width="448" height="448" decoding="async"
+                 alt="Generation for the prompt: cat knight in the style of darkest dungeon">
+            <figcaption><span class="prompt-tag">PickScore</span><span class="prompt-text">“cat knight in the style of darkest dungeon”</span></figcaption>
+          </figure>
+          <figure class="compare-cell">
+            <img class="compare-img" data-key="c6" src="static/images/compare/ours_wb_c6.jpg"
+                 width="448" height="448" decoding="async"
+                 alt="Generation for the prompt: realistic cartoon mouse with a birthday candle">
+            <figcaption><span class="prompt-tag">PickScore</span><span class="prompt-text">“realistic cartoon mouse with a birthday candle”</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+        <nav class="page-switch" id="blocks" aria-label="Pages">
+          <a class="page-pill is-current" href="index.html#blocks" aria-current="page">Overview</a>
+          <a class="page-pill" href="comparisons.html#blocks">Qualitative comparisons</a>
+          <a class="page-pill" href="spillover.html#blocks">Spillover examples</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="page-shell prose-section" aria-labelledby="abstract-heading">
+        <div class="section-rule"></div>
+        <p class="section-kicker">Overview</p>
+        <h2 id="abstract-heading">Abstract</h2>
+        <p class="abstract">Text-to-image diffusion models must combine broad capabilities, such as instruction following, text rendering, perceptual quality, and human preference, with the few-step sampling that deployment requires. On-policy distillation supervises a student on states it generates itself, consolidating capabilities from several specialized teachers into one model, while step distillation compresses a sampling trajectory into a few steps; we study combining the two. However, existing pipelines instead chain them: a full-step multi-teacher model is trained first and compressed only afterward, so compression waits on that stage, and the capabilities it consolidates are not guaranteed to survive compression. To address this, we introduce StepX-OPD, a multi-teacher on-policy distillation method that jointly consolidates specialist capabilities and compresses the sampling trajectory: after a brief self-distillation warmup, each mini-batch is drawn from one training source and routed to the frozen reward-specialized teacher for that source, which drives distribution matching on states supplied by the student's own few-step rollout. Furthermore, on low-noise batches the routed teacher also regresses the student's velocity field directly, balancing capability transfer against the fidelity of the few-step trajectory itself.</p>
+
+        <div class="contribution-heading">
+          <p class="section-kicker">Key contributions</p>
+          <h3>What the study contributes</h3>
+        </div>
+        <ol class="contribution-list">
+          <li>
+            <span class="contribution-index" aria-hidden="true">01</span>
+            <div><strong>Joint training.</strong> <span class="method-inline">StepX-OPD</span> uses the same selected teacher to train routed on-policy distillation and few-step compression on the student’s current rollout.</div>
+          </li>
+          <li>
+            <span class="contribution-index" aria-hidden="true">02</span>
+            <div><strong>Spillover measurement.</strong> The study measures unintended prompt-word rendering on prompts that neither request nor forbid text, finds that it rises with capability integration, including <span class="method-inline">StepX-OPD</span>, and presents a variant that reduces it.</div>
+          </li>
+          <li>
+            <span class="contribution-index" aria-hidden="true">03</span>
+            <div><strong>Common evaluation.</strong> The serial pipeline and <span class="method-inline">StepX-OPD</span> are evaluated under a shared protocol across text-to-image benchmarks.</div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="page-shell numbered-section" aria-labelledby="method-heading">
+        <header class="section-header">
+          <span class="section-number" aria-hidden="true">01</span>
+          <div>
+            <p class="section-kicker">Method</p>
+            <h2 id="method-heading">Route the source, supervise the rollout</h2>
+          </div>
+        </header>
+        <p class="section-intro">After a brief self-distillation warmup, each mini-batch comes from one training source. Its source chooses the matching frozen specialist, and the student supplies the states through its own few-step rollout.</p>
+
+        <figure class="method-figure">
+        <div class="method-diagram" role="img" aria-label="A training source routes a mini-batch to a frozen specialist teacher. The student rollout supplies on-policy states. The teacher drives distribution matching and low-noise velocity regression, which update one student.">
+          <div class="diagram-column">
+            <div class="diagram-node node-source">
+              <span class="node-label">Input</span>
+              <strong>Training source</strong>
+              <small>draw one mini-batch</small>
+            </div>
+            <span class="diagram-arrow" aria-hidden="true">→</span>
+            <div class="diagram-node node-route">
+              <span class="node-label">Route</span>
+              <strong>Source-matched specialist</strong>
+              <small>frozen teacher</small>
+            </div>
+          </div>
+          <div class="diagram-join" aria-hidden="true">+</div>
+          <div class="diagram-column">
+            <div class="diagram-node node-rollout">
+              <span class="node-label">State</span>
+              <strong>Student rollout</strong>
+              <small>on-policy trajectory</small>
+            </div>
+            <span class="diagram-arrow" aria-hidden="true">→</span>
+            <div class="diagram-node node-objective">
+              <span class="node-label">Objectives</span>
+              <strong>Distribution matching</strong>
+              <small>plus low-noise velocity regression</small>
+            </div>
+          </div>
+          <span class="diagram-arrow diagram-arrow-final" aria-hidden="true">→</span>
+          <div class="diagram-node node-student">
+            <span class="node-label">Update</span>
+            <strong>One few-step student</strong>
+          </div>
+        </div>
+        <figcaption>Source-based teacher routing combines with student-generated states to provide the training objectives.</figcaption>
+        </figure>
+
+        <div class="method-notes">
+          <article>
+            <p class="note-label">Capability transfer</p>
+            <p>The source-selected teacher drives distribution matching on states the student actually visits.</p>
+          </article>
+          <article>
+            <p class="note-label">Trajectory fidelity</p>
+            <p>On low-noise batches, the routed teacher also directly regresses the student’s velocity field.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="page-shell numbered-section" aria-labelledby="results-heading">
+        <header class="section-header">
+          <span class="section-number" aria-hidden="true">02</span>
+          <div>
+            <p class="section-kicker">Results</p>
+            <h2 id="results-heading">Few-step capability integration</h2>
+          </div>
+        </header>
+        <p class="section-intro">At four steps, <span class="method-inline">StepX-OPD</span> reaches the highest Average, GenEval, and OCR on both bases. DeQA and PickScore are led by other methods, as the detailed tables show.</p>
+
+        <div class="headline-results" aria-label="Average scores for StepX-OPD">
+          <article>
+            <p class="result-model">SD3.5-Medium</p>
+            <p class="result-value">0.8906</p>
+            <p class="result-label">Average · four steps</p>
+          </article>
+          <article>
+            <p class="result-model">FLUX.1-dev</p>
+            <p class="result-value">0.8902</p>
+            <p class="result-label">Average · four steps</p>
+          </article>
+        </div>
+
+        <p class="result-callout">On SD3.5-Medium, the four-step <span class="method-inline">StepX-OPD</span> Average of 0.8906 exceeds the forty-step Flow-OPD Average of 0.8788.</p>
+
+        <div class="results-grid">
+          <div class="table-block">
+            <div class="table-title-row">
+              <h3>SD3.5-Medium</h3>
+              <span>Four sampling steps</span>
+            </div>
+            <div class="table-scroll" tabindex="0" aria-label="Scrollable SD3.5-Medium results table">
+              <table>
+                <thead>
+                  <tr><th scope="col">Method</th><th scope="col">GenEval</th><th scope="col">OCR</th><th scope="col">DeQA</th><th scope="col">PickScore</th><th scope="col">Average</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">Base + TDM</th><td>0.653</td><td>0.335</td><td>4.002</td><td>21.87</td><td>0.6573</td></tr>
+                  <tr><th scope="row">Flow-OPD + TDM</th><td>0.875</td><td>0.751</td><td class="metric-best">4.217</td><td>22.60</td><td>0.8345</td></tr>
+                  <tr><th scope="row">DiffusionOPD + TDM</th><td>0.838</td><td>0.833</td><td>3.952</td><td class="metric-best">23.41</td><td>0.8403</td></tr>
+                  <tr class="ours-row"><th scope="row"><span class="method-inline">StepX-OPD</span> (ours)</th><td class="metric-best">0.946</td><td class="metric-best">0.897</td><td>4.178</td><td>22.97</td><td class="metric-best">0.8906</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-block">
+            <div class="table-title-row">
+              <h3>FLUX.1-dev</h3>
+              <span>Four sampling steps</span>
+            </div>
+            <div class="table-scroll" tabindex="0" aria-label="Scrollable FLUX.1-dev results table">
+              <table>
+                <thead>
+                  <tr><th scope="col">Method</th><th scope="col">GenEval</th><th scope="col">OCR</th><th scope="col">DeQA</th><th scope="col">PickScore</th><th scope="col">Average</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">Base + TDM</th><td>0.632</td><td>0.557</td><td class="metric-best">4.340</td><td>21.94</td><td>0.7252</td></tr>
+                  <tr><th scope="row">Flow-OPD + TDM</th><td>0.864</td><td>0.901</td><td>4.087</td><td>23.30</td><td>0.8695</td></tr>
+                  <tr><th scope="row">DiffusionOPD + TDM</th><td>0.882</td><td>0.925</td><td>4.005</td><td class="metric-best">23.32</td><td>0.8761</td></tr>
+                  <tr class="ours-row"><th scope="row"><span class="method-inline">StepX-OPD</span> (ours)</th><td class="metric-best">0.890</td><td class="metric-best">0.929</td><td>4.233</td><td>23.28</td><td class="metric-best">0.8902</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="table-key"><span class="key-mark" aria-hidden="true">Aa</span> Highest value in each column.</p>
+
+        <details class="disclosure">
+          <summary><span>Show forty-step reference results</span><span class="summary-icon" aria-hidden="true"></span></summary>
+          <div class="disclosure-body">
+            <div class="table-block">
+              <div class="table-title-row"><h3>SD3.5-Medium</h3><span>Forty sampling steps</span></div>
+              <div class="table-scroll" tabindex="0" aria-label="Scrollable SD3.5-Medium reference results table">
+                <table>
+                  <thead><tr><th scope="col">Method</th><th scope="col">GenEval</th><th scope="col">OCR</th><th scope="col">DeQA</th><th scope="col">PickScore</th><th scope="col">Average</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row">Base</th><td>0.666</td><td>0.529</td><td>4.045</td><td>21.79</td><td>0.7105</td></tr>
+                    <tr><th scope="row">GenEval Teacher</th><td>0.946</td><td>0.597</td><td>3.965</td><td>21.66</td><td>0.7923</td></tr>
+                    <tr><th scope="row">OCR Teacher</th><td>0.656</td><td>0.924</td><td>3.849</td><td>21.66</td><td>0.7957</td></tr>
+                    <tr><th scope="row">PickScore Teacher</th><td>0.744</td><td>0.629</td><td>4.166</td><td>23.30</td><td>0.7756</td></tr>
+                    <tr><th scope="row">Flow-OPD</th><td>0.905</td><td>0.885</td><td>4.268</td><td>22.66</td><td>0.8788</td></tr>
+                    <tr><th scope="row">DiffusionOPD</th><td>0.945</td><td>0.930</td><td>4.113</td><td>23.68</td><td>0.9022</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="table-block">
+              <div class="table-title-row"><h3>FLUX.1-dev</h3><span>Forty sampling steps</span></div>
+              <div class="table-scroll" tabindex="0" aria-label="Scrollable FLUX.1-dev reference results table">
+                <table>
+                  <thead><tr><th scope="col">Method</th><th scope="col">GenEval</th><th scope="col">OCR</th><th scope="col">DeQA</th><th scope="col">PickScore</th><th scope="col">Average</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row">Base</th><td>0.655</td><td>0.588</td><td>4.298</td><td>21.96</td><td>0.7368</td></tr>
+                    <tr><th scope="row">GenEval Teacher</th><td>0.900</td><td>0.663</td><td>4.333</td><td>22.06</td><td>0.8195</td></tr>
+                    <tr><th scope="row">OCR Teacher</th><td>0.670</td><td>0.942</td><td>4.254</td><td>21.99</td><td>0.8270</td></tr>
+                    <tr><th scope="row">PickScore Teacher</th><td>0.690</td><td>0.678</td><td>4.153</td><td>23.57</td><td>0.7765</td></tr>
+                    <tr><th scope="row">Flow-OPD</th><td>0.880</td><td>0.913</td><td>4.247</td><td>23.50</td><td>0.8864</td></tr>
+                    <tr><th scope="row">DiffusionOPD</th><td>0.892</td><td>0.933</td><td>4.225</td><td>23.58</td><td>0.8943</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <figure class="wide-figure figure-frame">
+          <a class="figure-image-link" href="static/images/teaser_gpu_hours_radar_300dpi.png" aria-label="Open the training-cost and capability comparison at full size">
+            <img src="static/images/teaser_gpu_hours_radar_300dpi.png" alt="A radar chart comparing method profiles beside a view of training cost." width="1063" height="485" loading="lazy" decoding="async">
+          </a>
+          <figcaption>A training-cost view alongside a capability profile of the compared methods.</figcaption>
+        </figure>
+
+        <div class="subsection-heading">
+          <p class="section-kicker">Qualitative comparison</p>
+          <h3>Capabilities side by side</h3>
+        </div>
+        <figure class="wide-figure figure-frame">
+          <a class="figure-image-link" href="static/images/qualitative_comparison_sixmodel.png" aria-label="Open the main qualitative comparison at full size">
+            <img src="static/images/qualitative_comparison_sixmodel.png" alt="Compared model outputs arranged side by side for benchmark prompts." width="826" height="338" loading="lazy" decoding="async">
+          </a>
+          <figcaption>Side-by-side outputs on compositional and text-rendering prompts.</figcaption>
+        </figure>
+
+      </section>
+
+      <section class="page-shell numbered-section" aria-labelledby="spillover-heading">
+        <header class="section-header">
+          <span class="section-number" aria-hidden="true">03</span>
+          <div>
+            <p class="section-kicker">Unintended text rendering</p>
+            <h2 id="spillover-heading">When capability integration spills over</h2>
+          </div>
+        </header>
+        <p class="section-intro">The study measures prompt words appearing as image text when prompts neither request nor forbid text. The effect rises with capability integration, including <span class="method-inline">StepX-OPD</span>, and a variant reduces it.</p>
+
+        <div class="paired-figures">
+          <figure class="figure-frame">
+            <a class="figure-image-link" href="static/images/spillover_examples.png" aria-label="Open the spillover examples at full size">
+              <img src="static/images/spillover_examples.png" alt="Generated images in which prompt words appear as unintended text." width="495" height="585" loading="lazy" decoding="async">
+            </a>
+            <figcaption>Examples of prompt words appearing as image text when text was not requested.</figcaption>
+          </figure>
+          <figure class="figure-frame">
+            <a class="figure-image-link" href="static/images/spillover_rates.png" aria-label="Open the spillover rate charts at full size">
+              <img src="static/images/spillover_rates.png" alt="Charts showing measured unintended text-rendering rates across model variants and prompt categories." width="495" height="586" loading="lazy" decoding="async">
+            </a>
+            <figcaption>Measured unintended text-rendering rates for prompts that do and do not specify text.</figcaption>
+          </figure>
+        </div>
+
+      </section>
+
+      <section class="page-shell numbered-section" aria-labelledby="analysis-heading">
+        <header class="section-header">
+          <span class="section-number" aria-hidden="true">04</span>
+          <div>
+            <p class="section-kicker">More analysis</p>
+            <h2 id="analysis-heading">Routing and regression</h2>
+          </div>
+        </header>
+        <p class="section-intro">Both ablations report SD3.5-Medium at four sampling steps.</p>
+
+        <article class="analysis-block">
+          <div class="subsection-heading">
+            <p class="section-kicker">Teacher selection</p>
+            <h3>Comparing teacher-selection rules</h3>
+          </div>
+          <p>All rows share the initialization, teacher set, rollout, and batch, so only the teacher-selection rule varies. Source routing has the highest GenEval, OCR, PickScore, and Average, while its DeQA is the lowest of the three. The largest separation is on OCR.</p>
+          <div class="table-scroll" tabindex="0" aria-label="Scrollable teacher-selection ablation table">
+            <table>
+              <thead><tr><th scope="col">Selection rule</th><th scope="col">GenEval</th><th scope="col">OCR</th><th scope="col">DeQA</th><th scope="col">PickScore</th><th scope="col">Average</th></tr></thead>
+              <tbody>
+                <tr class="ours-row"><th scope="row">Source routing (ours)</th><td class="metric-best">0.9460</td><td class="metric-best">0.8971</td><td>4.178</td><td class="metric-best">22.97</td><td class="metric-best">0.8906</td></tr>
+                <tr><th scope="row">Random teacher</th><td>0.9241</td><td>0.7388</td><td class="metric-best">4.203</td><td>22.37</td><td>0.8410</td></tr>
+                <tr><th scope="row">Uniform teacher average</th><td>0.9292</td><td>0.6738</td><td>4.179</td><td>22.18</td><td>0.8230</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="analysis-block">
+          <div class="subsection-heading">
+            <p class="section-kicker">Velocity regression</p>
+            <h3>Reported choices are close on Average</h3>
+          </div>
+          <p>The first three settings land within 0.001 of one another on Average, indicating that the reported setting is insensitive to this choice. The step-1000 row comes from a separate run family.</p>
+          <div class="table-scroll" tabindex="0" aria-label="Scrollable velocity-regression ablation table">
+            <table>
+              <thead><tr><th scope="col">Regression setting</th><th scope="col">GenEval</th><th scope="col">OCR</th><th scope="col">DeQA</th><th scope="col">PickScore</th><th scope="col">Average</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">w/o regression</th><td>0.9434</td><td>0.8956</td><td class="metric-best">4.178</td><td>22.95</td><td>0.8894</td></tr>
+                <tr><th scope="row">from step 0</th><td>0.9444</td><td>0.8950</td><td>4.177</td><td>22.96</td><td>0.8895</td></tr>
+                <tr><th scope="row">from step 500</th><td>0.9442</td><td class="metric-best">0.8986</td><td>4.170</td><td class="metric-best">22.98</td><td>0.8901</td></tr>
+                <tr><th scope="row">from step 1000</th><td>0.8869</td><td>0.8145</td><td>3.996</td><td>22.62</td><td>0.8426</td></tr>
+                <tr class="ours-row"><th scope="row">w<sub>b</sub>-weighted (ours)</th><td class="metric-best">0.9460</td><td>0.8971</td><td class="metric-best">4.178</td><td>22.97</td><td class="metric-best">0.8906</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="page-shell numbered-section citation-section" aria-labelledby="citation-heading">
+        <header class="section-header">
+          <span class="section-number" aria-hidden="true">05</span>
+          <div>
+            <p class="section-kicker">Citation</p>
+            <h2 id="citation-heading">BibTeX</h2>
+          </div>
+        </header>
+        <div class="bibtex-wrap">
+          <button class="copy-button" type="button" data-copy-bib aria-label="Copy BibTeX citation">
+            <span data-copy-label>Copy</span>
+          </button>
+          <pre><code id="bibtex">@inproceedings{placeholder2026stepxopd,
+  author = {Chenru Wang},
+  title = {StepX-OPD: Rethinking Multi-Teacher On-Policy Distillation in Diffusion Models},
+  booktitle = {Venue placeholder}, % venue line is a placeholder
+  year = {2026}
+}</code></pre>
+        </div>
+        <p class="copy-status" data-copy-status aria-live="polite"></p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="page-shell footer-inner">
+        <p>Design inspired by the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.</p>
+        <p>Page content is available under a Creative Commons license.</p>
+      </div>
+    </footer>
+  </body>
+</html>
